@@ -1,4 +1,6 @@
 import { LoginForm } from "@/components/quiz/Login";
+import { StaticNotice } from "@/components/quiz/StaticNotice";
+import { STATIC } from "@/lib/static";
 import { asLocale } from "@/lib/i18n";
 import { pageMeta } from "@/lib/seo";
 
@@ -8,5 +10,5 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 export default function LoginPage() {
-  return <LoginForm />;
+  return STATIC ? <StaticNotice /> : <LoginForm />;
 }

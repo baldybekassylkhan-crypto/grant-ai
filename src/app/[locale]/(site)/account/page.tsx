@@ -1,4 +1,6 @@
 import { AccountCabinet } from "@/components/quiz/AccountCabinet";
+import { StaticNotice } from "@/components/quiz/StaticNotice";
+import { STATIC } from "@/lib/static";
 import { asLocale } from "@/lib/i18n";
 import { pageMeta } from "@/lib/seo";
 
@@ -8,6 +10,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 export default function AccountPage() {
+  if (STATIC) return <StaticNotice />;
   return (
     <div className="bg-page pb-24 pt-10">
       <div className="container-site">

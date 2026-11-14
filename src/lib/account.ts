@@ -5,6 +5,7 @@
  * Local keys stay the single place components read from; when signed in, every change is also saved to /api/me.
  */
 import { useEffect, useState } from "react";
+import { STATIC } from "./static";
 
 export type AccountUser = { id: number; email: string; name: string; role: string; created_at?: string };
 type ServerData = { plan: unknown; progress: Record<string, boolean>; mockHistory: HistoryItem[]; updatedAt: string | null };
@@ -59,6 +60,11 @@ export async function mergeAfterLogin(server: ServerData) {
 
 export function loadAccount(force = false) {
   if (loading && !force) return loading;
+  if (STATIC) {
+    user = null;
+    loading = Promise.resolve().then(emit);
+    return loading;
+  }
   loading = fetch("/api/me", { cache: "no-store" })
     .then((r) => r.json())
     .then((j: { user: AccountUser | null; data?: ServerData }) => {
@@ -107,7 +113,7 @@ export function pushToAccount(patch: { plan?: unknown; progress?: Record<string,
 }
 
 export async function logout() {
-  await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
+  if (!STATIC) await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
   // keep nothing personal on a shared device
   write(KEYS.plan, null);
   write(KEYS.progress, null);

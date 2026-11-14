@@ -1,5 +1,6 @@
 "use client";
 
+import { STATIC } from "@/lib/static";
 import Link from "next/link";
 import { PlanButton } from "@/components/ui/PlanAware";
 import { usePathname } from "next/navigation";
@@ -120,9 +121,9 @@ function MobileDrawer({ open, onClose, pathname, locale, signedIn }: { open: boo
             })}
           </ul>
           <div className="mt-6 border-t border-line pt-6">
-            <Link href={lp(locale, signedIn ? "/account" : "/login")} onClick={onClose} className="flex min-h-12 items-center px-4 text-[16px] font-bold text-muted hover:text-ink">
+            {!STATIC && <Link href={lp(locale, signedIn ? "/account" : "/login")} onClick={onClose} className="flex min-h-12 items-center px-4 text-[16px] font-bold text-muted hover:text-ink">
               {signedIn ? "Кабинет" : UI.login[locale]}
-            </Link>
+            </Link>}
             <div className="px-2">
               <LanguageMenu />
             </div>
@@ -201,11 +202,11 @@ export function SiteHeader() {
           <div className="hidden lg:block">
             <LanguageMenu />
           </div>
-          <Link href={lp(locale, account.user ? "/account" : "/login")} className="hidden min-h-9 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-[14px] font-bold text-muted hover:text-ink lg:inline-flex">
+          {!STATIC && (<Link href={lp(locale, account.user ? "/account" : "/login")} className="hidden min-h-9 items-center gap-1.5 whitespace-nowrap rounded-full px-3 text-[14px] font-bold text-muted hover:text-ink lg:inline-flex">
             <UserRound className="size-4" aria-hidden />
             <span className="hidden xl:inline">{account.user ? (locale === "kk" ? "Кабинет" : "Кабинет") : UI.login[locale]}</span>
             <span className="sr-only xl:hidden">{account.user ? "Кабинет" : UI.login[locale]}</span>
-          </Link>
+          </Link>)}
           {hasPlan ? (
             <Button href={lp(locale, "/plan")} size="md" arrow={false} className="whitespace-nowrap">
               {locale === "kk" ? "Жоспарым" : "Мой план"}

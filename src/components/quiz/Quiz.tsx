@@ -1,5 +1,6 @@
 "use client";
 
+import { STATIC } from "@/lib/static";
 import { ArrowLeft, Check, Loader2 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -232,6 +233,14 @@ function FinalStep({ answers, onRestart }: { answers: Answers; onRestart: () => 
 
   const send = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (STATIC) {
+      // no server in the static build: go straight to the plan (it is saved in this browser)
+      try {
+        sessionStorage.setItem("grantai:plan-email", JSON.stringify({ email, ok: false, reason: "not_configured" }));
+      } catch {}
+      router.push(`/${l}/plan`);
+      return;
+    }
     if (!email) return;
     setState("sending");
     setError("");
@@ -279,7 +288,7 @@ function FinalStep({ answers, onRestart }: { answers: Answers; onRestart: () => 
         <label className="block text-[13px] font-extrabold text-ink" htmlFor="quiz-email">
           {T(l, "Электрондық пошта", "Электронная почта")}
         </label>
-        <input id="quiz-email" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.kz" className="mt-2 h-12 w-full rounded-2xl bg-card px-4 text-[16px] ring-line" />
+        <input id="quiz-email" type="email" required={!STATIC} autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.kz" className="mt-2 h-12 w-full rounded-2xl bg-card px-4 text-[16px] ring-line" />
         {state === "error" && (
           <p role="alert" className="mt-2 text-[13px] font-bold text-primary-deep">
             {error}
