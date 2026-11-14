@@ -1,0 +1,274 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ───────────── Design tokens ───────────── */
+:root {
+  --primary: #ff4b3c;
+  --primary-hover: #ff7160;
+  --primary-tint: #fff1ef;
+  --primary-tint-2: #ffece9;
+  --primary-deep: #c82e1e;
+  --primary-nav-text: #a32c20;
+  --ink: #030a19;
+  --body: #232b3a;
+  --muted: #5b6576;
+  --page: #f8fafe;
+  --white: #ffffff;
+  --surface: #f4f6fb;
+  --muted-band: rgb(238 242 249 / 0.3);
+  --border: #e1e5ec;
+  --info-bg: #edf3ff;
+  --info: #135ef2;
+  --info-text: #0b4fcc;
+  --success: #12b76a;
+  --star: #f3b105;
+  --dark-pill: #0b1220;
+  --on-primary: #ffffff;
+
+  --accent-blue: #135ef2;
+  --accent-coral: #ff4b3c;
+  --accent-sky: #049aee;
+  --accent-orange: #f56207;
+  --accent-amber: #f3b105;
+  --accent-orchid: #d67bdd;
+  --tint-blue: #edf3ff;
+  --tint-coral: #ffece9;
+  --tint-sky: #e6f4fd;
+  --tint-orange: #ffede0;
+  --tint-amber: #fff4d9;
+  --tint-orchid: #fbebfa;
+
+  --shadow-soft: 0 1px 3px rgba(3, 10, 25, 0.06), 0 8px 24px rgba(3, 10, 25, 0.04);
+}
+
+.dark {
+  --primary: #ff7160;
+  --primary-hover: #ff8b7d;
+  --primary-tint: #2a1210;
+  --primary-tint-2: #33140f;
+  --primary-deep: #ff8b7d;
+  --primary-nav-text: #ffb1a6;
+  --ink: #f8fafe;
+  --body: #d9dee8;
+  --muted: #9aa3b2;
+  --page: #030a19;
+  --white: #060f1e;
+  --surface: #0d1626;
+  --muted-band: #1c222b;
+  --border: #1c222b;
+  --info-bg: #0b1a36;
+  --info: #4d86ff;
+  --info-text: #9bbcff;
+  --dark-pill: #111a2c;
+  --tint-blue: #0b1a36;
+  --tint-coral: #2a1210;
+  --tint-sky: #07202f;
+  --tint-orange: #2b1708;
+  --tint-amber: #2a2206;
+  --tint-orchid: #2a1229;
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-tint: var(--primary-tint);
+  --color-primary-tint-2: var(--primary-tint-2);
+  --color-primary-deep: var(--primary-deep);
+  --color-primary-nav: var(--primary-nav-text);
+  --color-ink: var(--ink);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-page: var(--page);
+  --color-card: var(--white);
+  --color-surface: var(--surface);
+  --color-band: var(--muted-band);
+  --color-line: var(--border);
+  --color-info-bg: var(--info-bg);
+  --color-info: var(--info);
+  --color-info-text: var(--info-text);
+  --color-success: var(--success);
+  --color-star: var(--star);
+  --color-dark-pill: var(--dark-pill);
+
+  --font-display: var(--font-unbounded), ui-rounded, system-ui, sans-serif;
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+
+  --breakpoint-xl: 75rem; /* 1200px */
+}
+
+/* ───────────── Utilities ───────────── */
+@utility container-site {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1152px;
+  padding-inline: 16px;
+  @media (min-width: 768px) {
+    padding-inline: 24px;
+  }
+}
+@utility ring-line {
+  box-shadow: inset 0 0 0 1px var(--border);
+}
+@utility ring-line-15 {
+  box-shadow: inset 0 0 0 1.5px var(--border);
+}
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+@utility shadow-soft-ring {
+  box-shadow: inset 0 0 0 1px var(--border), var(--shadow-soft);
+}
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+@utility eyebrow {
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.8px;
+}
+
+/* ───────────── Base ───────────── */
+html {
+  scroll-padding-top: 92px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+@layer base {
+  h1,
+  h2,
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+::selection {
+  background: var(--primary-tint-2);
+  color: var(--ink);
+}
+
+/* Marquees */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+.fade-edges {
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+}
+
+/* Entrance */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Quiz slide */
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes slide-in-left {
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: none; }
+}
+.slide-next { animation: slide-in-right 220ms ease both; }
+.slide-prev { animation: slide-in-left 220ms ease both; }
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+.pop-in { animation: pop-in 200ms ease both; }
+
+@keyframes shimmer {
+  0% { transform: scaleX(0.2); opacity: 0.5; }
+  50% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(0.2); opacity: 0.5; }
+}
+.shimmer { transform-origin: left; animation: shimmer 2.4s ease-in-out infinite; }
+
+/* Animated <details> height (progressive enhancement) */
+.faq-details {
+  interpolate-size: allow-keywords;
+}
+.faq-details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size 200ms ease, content-visibility 200ms ease allow-discrete;
+}
+.faq-details[open]::details-content {
+  block-size: auto;
+}
+.faq-details summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Article prose links */
+.prose-link {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline 2px var(--primary);
+  text-underline-offset: 4px;
+}
+.prose-link:hover {
+  text-decoration-color: var(--ink);
+}
+
+dialog::backdrop {
+  background: rgb(3 10 25 / 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .marquee-track {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
